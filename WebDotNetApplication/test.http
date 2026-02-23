@@ -1,0 +1,30 @@
+GET http://localhost:5263
+### 
+GET http://localhost:5263/users
+### 
+GET http://localhost:5263/users/1
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "David",
+  "Email": "david@example.com",
+  "AccountBalance": 100.00,
+  "CreatedDate": "2023-04-01"
+}
+
+###
+PUT http://localhost:5263/users/3
+Content-Type: application/json
+
+{
+    "Name": "Charlie 123412",
+    "Email": "charlie.updated@example.com",
+    "AccountBalance": 3.50,
+    "CreatedDate": "2023-03-01"
+}
+
+###
+DELETE http://localhost:5263/users/4
