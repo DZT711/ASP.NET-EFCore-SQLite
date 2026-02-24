@@ -12,5 +12,5 @@ app.MapGet("/", () => "Hello World!");
 
 
 app.MapUserEndpoints();
-
+app.MigrateDb(); // auto create database when not exist
 app.Run();
