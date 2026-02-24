@@ -13,6 +13,7 @@ Content-Type: application/json
 {
   "Name": "David",
   "Email": "david@example.com",
+  "Role": "User",
   "AccountBalance": 100.00,
   "CreatedDate": "2023-04-01"
 }
@@ -24,6 +25,7 @@ Content-Type: application/json
 {
     "Name": "Charlie 123412",
     "Email": "charlie.updated@example.com",
+    "Role": "Admin",
     "AccountBalance": 3.50,
     "CreatedDate": "2023-03-01"
 }
@@ -41,6 +43,7 @@ Content-Type: application/json
 {
     "Name": "Charlie 123412",
     "Email": "charlie.updated@example.com",
+    "Role": "User",
     "AccountBalance": 3.50,
     "CreatedDate": "2023-03-01"
 }
@@ -52,6 +55,7 @@ Content-Type: application/json
 {
   "Name": "",
   "Email": "blankUserName@example.com",
+  "Role": "User",
   "AccountBalance": 100.00,
   "CreatedDate": "2023-04-01"
 }
@@ -63,6 +67,7 @@ Content-Type: application/json
 {
   "Name": "hhh",
   "Email": "ThisIsAVeryLongEmailThatExceedsTheMaximumAllowedLength@example.com",
+  "Role": "User",
   "AccountBalance": 100.00,
   "CreatedDate": "2023-04-01"
 }
@@ -74,6 +79,7 @@ Content-Type: application/json
 {
   "Name": "Invalid Balance",
   "Email": "t@example.com",
+  "Role": "User",
   "AccountBalance": -100.00,
   "CreatedDate": "2023-04-01"
 }

@@ -8,9 +8,9 @@ public static class UserEndpoints
     const string EndpointName = "GetUser";
 
     private static readonly List<UserDTO> usr = [
-        new(1, "Alice", "alice@example.com",1, new DateOnly(2023, 1, 1)),
-    new(2, "Bob", "bob@example.com",2.22M, new DateOnly(2023, 2, 1)),
-    new(3, "Charlie", "charlie@example.com",3, new DateOnly(2023, 3, 1))
+        new(1, "Alice", "alice@example.com", "Admin", 100.00M, new DateOnly(2023, 1, 1)),
+    new(2, "Bob", "bob@example.com", "User", 200.00M, new DateOnly(2023, 2, 1)),
+    new(3, "Charlie", "charlie@example.com", "User", 300.00M, new DateOnly(2023, 3, 1))
     ];
 
     public static void MapUserEndpoints(this WebApplication app)
@@ -32,6 +32,7 @@ public static class UserEndpoints
                 usr.Count + 1,
                 user.Name,
                 user.Email,
+                user.Role,
                 user.AccountBalance,
                 user.CreatedDate
             );
@@ -47,7 +48,7 @@ public static class UserEndpoints
             {
                 return Results.NotFound();
             }
-            usr[index] = new UserDTO(id, user.Name, user.Email, user.AccountBalance, user.CreatedDate);
+            usr[index] = new UserDTO(id, user.Name, user.Email, user.Role, user.AccountBalance, user.CreatedDate);
             return Results.NoContent();
         });
 
