@@ -13,7 +13,10 @@ List<UserDTO> usr = [
 
 app.MapGet("/users", () => usr);
 
-app.MapGet("/users/{id}", (int id) => usr.Find(u => u.Id == id)).WithName("GetUser");
+app.MapGet("/users/{id}", (int id) => {
+    var user = usr.Find(u => u.Id == id);
+    return user is null ? Results.NotFound() : Results.Ok(user);
+}).WithName("GetUser");
 
 
 app.MapPost("/users", (CreateUserDTO user) =>
@@ -33,6 +36,10 @@ app.MapPost("/users", (CreateUserDTO user) =>
 app.MapPut("/users/{id}", (int id, UpdateUserDTO user) =>
 {
     var index = usr.FindIndex(u => u.Id == id);
+    if(index == -1)
+    {
+        return Results.NotFound();
+    }
     usr[index] = new UserDTO(id, user.Name, user.Email, user.AccountBalance, user.CreatedDate);
     return Results.NoContent();
 });
