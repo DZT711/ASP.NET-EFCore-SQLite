@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace WebDotNetApplication.DTO;
 
 public record CreateUserDTO(
-    string Name,
-    string Email,
-    decimal AccountBalance,
+    [Required][StringLength(50)] string Name,
+    [Required][StringLength(50)] string Email,
+    [Required][Range(0, 1000000000)] decimal AccountBalance,
     DateOnly CreatedDate
 );
 

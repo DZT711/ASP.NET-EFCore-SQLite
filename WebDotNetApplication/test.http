@@ -1,10 +1,12 @@
 GET http://localhost:5263
- 
+
+###
 GET http://localhost:5263/users
- 
+
+###
 GET http://localhost:5263/users/1
 
-
+###
 POST http://localhost:5263/users
 Content-Type: application/json
 
@@ -15,7 +17,7 @@ Content-Type: application/json
   "CreatedDate": "2023-04-01"
 }
 
-
+###
 PUT http://localhost:5263/users/3
 Content-Type: application/json
 
@@ -26,7 +28,7 @@ Content-Type: application/json
     "CreatedDate": "2023-03-01"
 }
 
-
+###
 DELETE http://localhost:5263/users/4
 
 ### try to get user 4 info when not created
@@ -42,3 +44,38 @@ Content-Type: application/json
     "AccountBalance": 3.50,
     "CreatedDate": "2023-03-01"
 }
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "",
+  "Email": "blankUserName@example.com",
+  "AccountBalance": 100.00,
+  "CreatedDate": "2023-04-01"
+}
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "hhh",
+  "Email": "ThisIsAVeryLongEmailThatExceedsTheMaximumAllowedLength@example.com",
+  "AccountBalance": 100.00,
+  "CreatedDate": "2023-04-01"
+}
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "Invalid Balance",
+  "Email": "t@example.com",
+  "AccountBalance": -100.00,
+  "CreatedDate": "2023-04-01"
+}
+
+
