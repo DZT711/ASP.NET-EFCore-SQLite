@@ -84,4 +84,14 @@ Content-Type: application/json
   "CreatedDate": "2023-04-01"
 }
 
+###
+POST http://localhost:5263/users
+Content-Type: application/json
 
+{
+  "Name": "David",
+  "Email": "david@example.com",
+  "RoleId": 2,
+  "AccountBalance": 100.00,
+  "CreatedDate": "2023-04-01"
+}

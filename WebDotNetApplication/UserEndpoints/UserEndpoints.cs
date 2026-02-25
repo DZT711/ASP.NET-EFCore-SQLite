@@ -1,5 +1,7 @@
 using System;
+using WebDotNetApplication.Data;
 using WebDotNetApplication.DTO;
+using WebDotNetApplication.Models;
 
 namespace WebDotNetApplication.UserEndpoints;
 
@@ -9,8 +11,8 @@ public static class UserEndpoints
 
     private static readonly List<UserDTO> usr = [
         new(1, "Alice", "alice@example.com", "Admin", 100.00M, new DateOnly(2023, 1, 1)),
-    new(2, "Bob", "bob@example.com", "User", 200.00M, new DateOnly(2023, 2, 1)),
-    new(3, "Charlie", "charlie@example.com", "User", 300.00M, new DateOnly(2023, 3, 1))
+        new(2, "Bob", "bob@example.com", "User", 200.00M, new DateOnly(2023, 2, 1)),
+        new(3, "Charlie", "charlie@example.com", "User", 300.00M, new DateOnly(2023, 3, 1))
     ];
 
     public static void MapUserEndpoints(this WebApplication app)
@@ -26,18 +28,36 @@ public static class UserEndpoints
         }).WithName(EndpointName);
 
 
-        group.MapPost("/", (CreateUserDTO user) =>
+        group.MapPost("/", (CreateUserDTO user, WebAppContext dbcontext) =>
         {
-            UserDTO newUser = new(
-                usr.Count + 1,
-                user.Name,
-                user.Email,
-                user.Role,
-                user.AccountBalance,
-                user.CreatedDate
+            // UserDTO newUser = new(
+            //     usr.Count + 1,
+            //     user.Name,
+            //     user.Email,
+            //     user.Role,
+            //     user.AccountBalance,
+            //     user.CreatedDate
+            // );
+            // usr.Add(newUser);
+            User newusr = new()
+            {
+                Name = user.Name,
+                Email = user.Email,
+                RoleId = user.RoleId,
+                AccountBalance = user.AccountBalance,
+                CreatedDate = user.CreatedDate
+            };
+            dbcontext.Users.Add(newusr);
+            dbcontext.SaveChanges();
+            UserInformationDTO usrInfo = new(
+                newusr.Id,
+                newusr.Name,
+                newusr.Email,
+                newusr.RoleId,
+                newusr.AccountBalance,
+                newusr.CreatedDate
             );
-            usr.Add(newUser);
-            return Results.CreatedAtRoute(EndpointName, new { id = newUser.Id }, newUser);
+            return Results.CreatedAtRoute(EndpointName, new { id = usrInfo.Id }, usrInfo);
         });
 
 
