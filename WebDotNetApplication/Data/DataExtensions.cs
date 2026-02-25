@@ -14,7 +14,7 @@ public static class DataExtensions
     }
     public static void AddDataToDatabase(this WebApplicationBuilder builder)
     {
-        var conn = "Data Source=App.db";
+        var conn = builder.Configuration.GetConnectionString("ConnectionKey");
         builder.Services.AddSqlite<WebAppContext>(
                         conn,
                         optionsAction: options => options.UseSeeding((context, _) =>
