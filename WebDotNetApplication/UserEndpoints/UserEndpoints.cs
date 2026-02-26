@@ -1,4 +1,5 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using WebDotNetApplication.Data;
 using WebDotNetApplication.DTO;
 using WebDotNetApplication.Models;
@@ -9,26 +10,31 @@ public static class UserEndpoints
 {
     const string EndpointName = "GetUser";
 
-    private static readonly List<UserDTO> usr = [
-        new(1, "Alice", "alice@example.com", "Admin", 100.00M, new DateOnly(2023, 1, 1)),
-        new(2, "Bob", "bob@example.com", "User", 200.00M, new DateOnly(2023, 2, 1)),
-        new(3, "Charlie", "charlie@example.com", "User", 300.00M, new DateOnly(2023, 3, 1))
-    ];
+    // private static readonly List<UserDTO> usr = [
+    //     new(1, "Alice", "alice@example.com", "Admin", 100.00M, new DateOnly(2023, 1, 1)),
+    //     new(2, "Bob", "bob@example.com", "User", 200.00M, new DateOnly(2023, 2, 1)),
+    //     new(3, "Charlie", "charlie@example.com", "User", 300.00M, new DateOnly(2023, 3, 1))
+    // ];
 
     public static void MapUserEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/users");
-        group.MapGet("/", () => usr);
+        group.MapGet("/", async (WebAppContext dbcontext) =>
+            await dbcontext.Users.Include(u => u.Role).Select(u =>
+                new UserDTO(u.Id, u.Name, u.Email, u.Role!.NameRole, u.AccountBalance, u.CreatedDate)).ToListAsync()
+            );
 
 
-        group.MapGet("/{id}", (int id) =>
+        group.MapGet("/{id}", async (int id, WebAppContext dbcontext) =>
         {
-            var user = usr.Find(u => u.Id == id);
-            return user is null ? Results.NotFound() : Results.Ok(user);
+            var user = await dbcontext.Users.FindAsync(id);
+            return user is null ? Results.NotFound() : Results.Ok(
+                new UserInformationDTO(user.Id, user.Name, user.Email, user.RoleId, user.AccountBalance, user.CreatedDate)
+            );
         }).WithName(EndpointName);
 
 
-        group.MapPost("/", (CreateUserDTO user, WebAppContext dbcontext) =>
+        group.MapPost("/", async (CreateUserDTO user, WebAppContext dbcontext) =>
         {
             // UserDTO newUser = new(
             //     usr.Count + 1,
@@ -48,7 +54,7 @@ public static class UserEndpoints
                 CreatedDate = user.CreatedDate
             };
             dbcontext.Users.Add(newusr);
-            dbcontext.SaveChanges();
+            await dbcontext.SaveChangesAsync();
             UserInformationDTO usrInfo = new(
                 newusr.Id,
                 newusr.Name,
@@ -61,21 +67,26 @@ public static class UserEndpoints
         });
 
 
-        group.MapPut("/{id}", (int id, UpdateUserDTO user) =>
+        group.MapPut("/{id}", async (int id, UpdateUserDTO user, WebAppContext dbcontext) =>
         {
-            var index = usr.FindIndex(u => u.Id == id);
-            if (index == -1)
+            var existingUser = await dbcontext.Users.FindAsync(id);
+            if (existingUser is null)
             {
                 return Results.NotFound();
             }
-            usr[index] = new UserDTO(id, user.Name, user.Email, user.Role, user.AccountBalance, user.CreatedDate);
+            existingUser.Name = user.Name;
+            existingUser.Email = user.Email;
+            existingUser.RoleId = user.RoleId;
+            existingUser.AccountBalance = user.AccountBalance;
+            existingUser.CreatedDate = user.CreatedDate;
+            await dbcontext.SaveChangesAsync();
             return Results.NoContent();
         });
 
 
-        group.MapDelete("/{id}", (int id) =>
+        group.MapDelete("/{id}", async (int id, WebAppContext dbcontext) =>
         {
-            usr.RemoveAll(u => u.Id == id);
+            await dbcontext.Users.Where(u => u.Id == id).ExecuteDeleteAsync();
             return Results.NoContent();
         });
 

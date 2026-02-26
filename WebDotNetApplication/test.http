@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5263/users/4
+DELETE http://localhost:5263/users/2
 
 ### try to get user 4 info when not created
 GET  http://localhost:5263/users/4
@@ -95,3 +95,78 @@ Content-Type: application/json
   "AccountBalance": 100.00,
   "CreatedDate": "2023-04-01"
 }
+### Example User data 
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "Alice Johnson",
+  "Email": "alice.johnson@example.com",
+  "RoleId": 4,
+  "AccountBalance": 250.75,
+  "CreatedDate": "2023-01-15"
+}
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "Bob Smith",
+  "Email": "bob.smith@example.com",
+  "RoleId": 2,
+  "AccountBalance": 50.00,
+  "CreatedDate": "2023-02-20"
+}
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "Emma Wilson",
+  "Email": "emma.wilson@example.com",
+  "RoleId": 7,
+  "AccountBalance": 150.50,
+  "CreatedDate": "2023-03-10"
+}
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "John Brown",
+  "Email": "john.brown@example.com",
+  "RoleId": 5,
+  "AccountBalance": 75.25,
+  "CreatedDate": "2023-04-05"
+}
+
+###
+POST http://localhost:5263/users
+Content-Type: application/json
+
+{
+  "Name": "Sarah Davis",
+  "Email": "sarah.davis@example.com",
+  "RoleId": 10,
+  "AccountBalance": 200.00,
+  "CreatedDate": "2023-05-12"
+}
+
+### 
+PUT http://localhost:5263/users/2
+Content-Type: application/json
+
+{
+    "Name": "Charlie 123412",
+    "Email": "charlie.updated@example.com",
+    "RoleId": 2,
+    "AccountBalance": 3.50,
+    "CreatedDate": "2023-03-01"
+}
+
+###
+GET http://localhost:5263/users/2
