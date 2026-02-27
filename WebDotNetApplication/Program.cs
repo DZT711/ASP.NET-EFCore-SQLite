@@ -9,5 +9,6 @@ builder.AddDataToDatabase();
 var app = builder.Build();
 app.MapGet("/", () => "Hello World!");
 app.MapUserEndpoints();
+app.MapRolesEndpoints();
 app.MigrateDb(); // auto create database when not exist
 app.Run();

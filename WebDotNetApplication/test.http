@@ -170,3 +170,6 @@ Content-Type: application/json
 
 ###
 GET http://localhost:5263/users/2
+
+###
+GET http://localhost:5263/roles
