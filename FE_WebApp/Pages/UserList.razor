@@ -1,9 +1,9 @@
 @page "/users"
 @inject HttpClient Http
 
-<PageTitle>Danh sách người dùng</PageTitle>
+<PageTitle>User List</PageTitle>
 
-<h2 class="mb-4">Thông tin người dùng từ Backend</h2>
+<h2 class="mb-4">Users from SQLite Database</h2>
 
 @if (users == null)
 {
@@ -18,11 +18,11 @@ else
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Họ và Tên</th>
+                <th>Name</th>
                 <th>Email</th>
-                <th>Vai Trò</th>
-                <th>Số Dư</th>
-                <th>Ngày Tạo</th>
+                <th>Role</th>
+                <th>Account Balance</th>
+                <th>Created Date</th>
             </tr>
         </thead>
         <tbody>
@@ -32,8 +32,8 @@ else
                     <td>@user.Id</td>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td>@roles.FirstOrDefault(r => r.Id == user.Role)?.Name</td>
-                    <td>@user.Balance</td>
+                    <td>@user.Role</td>
+                    <td>@user.AccountBalance.ToString("C")</td>
                     <td>@user.CreatedDate.ToString("dd/MM/yyyy")</td>
                 </tr>
             }
@@ -42,37 +42,30 @@ else
 }
 
 @code {
-    private List<UserViewModel> users = new();
-    private List<RoleViewModel> roles = new();
+    private List<UserDto> users = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            // Gọi API bằng HTTP (Port 5263)
-            users = await Http.GetFromJsonAsync<List<UserViewModel>>("api/users") ?? new();
-            roles = await Http.GetFromJsonAsync<List<RoleViewModel>>("api/roles") ?? new();
+            // Call backend API on port 5000
+            users = await Http.GetFromJsonAsync<List<UserDto>>("users") ?? new();
+            Console.WriteLine($"Loaded {users.Count} users from database");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Lỗi gọi API: {ex.Message}");
-            users = new List<UserViewModel>();
+            Console.WriteLine($"Error calling API: {ex.Message}");
+            users = new List<UserDto>();
         }
     }
 
-    // Class hứng dữ liệu tạm thời tại FE
-    public class UserViewModel
+    public class UserDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public int Role { get; set; }
-        public decimal Balance { get; set; }
-        public DateTime CreatedDate { get; set; }
-    }
-    public class RoleViewModel
-    {
-        public int Id { get; set; }
-        public string? Name { get; set; }
+        public string? Role { get; set; }
+        public decimal AccountBalance { get; set; }
+        public DateOnly CreatedDate { get; set; }
     }
 }
