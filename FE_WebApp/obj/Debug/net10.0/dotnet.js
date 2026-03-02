@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "FE_WebApp",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-wOSso5+4Uzx5dg6brfKWb83Owibn40R0PLH2TqUqFlQ=",
+    "hash": "sha256-QRhC5ZB4g55JHXZZprTPtlLbEUn+M64uxZOw5nhRyoo=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.87vtjjdetb.js"
@@ -1242,16 +1242,16 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "FE_WebApp.wasm",
-        "name": "FE_WebApp.t8mxr77odd.wasm",
-        "integrity": "sha256-3dU2uFknUzozpQFxaAui6phliAZ/JW+c0akFtWpmKfw=",
+        "name": "FE_WebApp.iagamcz8df.wasm",
+        "integrity": "sha256-BtkKrZqs616wKIRDyrF5wbnimmbdbOHpK8+16Up3zRg=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "FE_WebApp.pdb",
-        "name": "FE_WebApp.0tt9osql1m.pdb",
-        "integrity": "sha256-JOdz5IO8s0FCiVkq8Tj0J01W+nzG9wx/0/rRmGGZjqg=",
+        "name": "FE_WebApp.djrhtm3zwp.pdb",
+        "integrity": "sha256-qeohi2Oi1TIPYI7Cv1GSP/LwvtKlIEnN5FK8WflhUV4=",
         "cache": "force-cache"
       }
     ],

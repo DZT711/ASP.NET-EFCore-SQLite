@@ -32,7 +32,7 @@ else
                     <td>@user.Id</td>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td>@user.Role</td>
+                    <td>@roles.FirstOrDefault(r => r.Id == user.Role)?.Name</td>
                     <td>@user.Balance</td>
                     <td>@user.CreatedDate.ToString("dd/MM/yyyy")</td>
                 </tr>
@@ -42,14 +42,16 @@ else
 }
 
 @code {
-    private List<UserViewModel>? users;
+    private List<UserViewModel> users = new();
+    private List<RoleViewModel> roles = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             // Gọi API bằng HTTP (Port 5263)
-            users = await Http.GetFromJsonAsync<List<UserViewModel>>("api/users");
+            users = await Http.GetFromJsonAsync<List<UserViewModel>>("api/users") ?? new();
+            roles = await Http.GetFromJsonAsync<List<RoleViewModel>>("api/roles") ?? new();
         }
         catch (Exception ex)
         {
@@ -64,8 +66,13 @@ else
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        public string? Role { get; set; }
+        public int Role { get; set; }
         public decimal Balance { get; set; }
         public DateTime CreatedDate { get; set; }
+    }
+    public class RoleViewModel
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
     }
 }

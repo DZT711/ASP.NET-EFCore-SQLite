@@ -21,7 +21,8 @@ namespace WebDotNetApplication.Controllers
         {
             // Lấy danh sách user thực tế từ bảng Users trong app.db
             var users = await _context.Users.ToListAsync();
-            return Ok(users);
+            var roles = await _context.Roles.ToListAsync();
+            return Ok(new { Users = users, Roles = roles });
         }
     }
 }
