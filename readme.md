@@ -1,4 +1,4 @@
-# ASP.NET Core Tutorial
+# ASP.NET Core Tutorial (Using with EF Core , Database SQLite)
 
 ## Overview
 
@@ -47,7 +47,7 @@ $env:ConnectionStrings__ConnectionKey="Data Source=User.db"
 dotnet run
 ```
 
-![img 1](./img/1.png)
+![img 1](./WebDotNetApplication/img/1.png)
 **Picture 1 Explanation:** This screenshot shows setting the connection string environment variable in PowerShell terminal. The syntax `$env:ConnectionStrings__ConnectionKey` uses double underscores (`__`) which is the convention in .NET for nested configuration keys. When you set this before running `dotnet run`, the application will use "User.db" as the database filename in the current directory.
 
 ---
@@ -199,3 +199,4 @@ If no environment variable is set, the application will use the connection strin
 2. Run `dotnet run`
 3. Application will automatically create and migrate the database
 4. Access the application as configured in `launchSettings.json`
+
