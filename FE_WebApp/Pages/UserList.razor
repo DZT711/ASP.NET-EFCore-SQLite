@@ -1,0 +1,71 @@
+@page "/users"
+@inject HttpClient Http
+
+<PageTitle>Danh sách người dùng</PageTitle>
+
+<h2 class="mb-4">Thông tin người dùng từ Backend</h2>
+
+@if (users == null)
+{
+    <div class="d-flex align-items-center">
+        <strong>Đang tải dữ liệu...</strong>
+        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+    </div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Họ và Tên</th>
+                <th>Email</th>
+                <th>Vai Trò</th>
+                <th>Số Dư</th>
+                <th>Ngày Tạo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+                    <td>@user.Balance</td>
+                    <td>@user.CreatedDate.ToString("dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<UserViewModel>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Gọi API bằng HTTP (Port 5263)
+            users = await Http.GetFromJsonAsync<List<UserViewModel>>("api/users");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi gọi API: {ex.Message}");
+            users = new List<UserViewModel>();
+        }
+    }
+
+    // Class hứng dữ liệu tạm thời tại FE
+    public class UserViewModel
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? Role { get; set; }
+        public decimal Balance { get; set; }
+        public DateTime CreatedDate { get; set; }
+    }
+}
